@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"log"
 
-	"platform_common/pkg/db"
-	"platform_common/pkg/db/prettier"
+	"github.com/kirillmc/platform_common/pkg/db"
+	"github.com/kirillmc/platform_common/pkg/db/prettier"
 
 	"github.com/georgysavva/scany/pgxscan"
 	"github.com/jackc/pgconn"

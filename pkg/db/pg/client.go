@@ -3,7 +3,7 @@ package pg
 import (
 	"context"
 
-	"platform_common/pkg/db"
+	"github.com/kirillmc/platform_common/pkg/db"
 
 	"github.com/jackc/pgx/v4/pgxpool"
 	"github.com/pkg/errors"
