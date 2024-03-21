@@ -5,12 +5,13 @@ import (
 	"fmt"
 	"log"
 
+	"platform_common/pkg/db"
+	"platform_common/pkg/db/prettier"
+
 	"github.com/georgysavva/scany/pgxscan"
 	"github.com/jackc/pgconn"
 	"github.com/jackc/pgx/v4"
 	"github.com/jackc/pgx/v4/pgxpool"
-	"github.com/kirillmc/chat-server/internal/client/db"
-	"github.com/kirillmc/chat-server/internal/client/db/prettier"
 )
 
 type pg struct {
