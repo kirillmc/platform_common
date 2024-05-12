@@ -4,12 +4,12 @@ go 1.20
 
 require (
 	github.com/georgysavva/scany v1.2.1
-	github.com/golang/protobuf v1.5.4
 	github.com/jackc/pgconn v1.14.1
 	github.com/jackc/pgx/v4 v4.18.1
 	github.com/pkg/errors v0.9.1
 	golang.org/x/crypto v0.19.0
 	google.golang.org/grpc v1.63.0
+	google.golang.org/protobuf v1.33.0
 )
 
 require (
@@ -24,5 +24,4 @@ require (
 	golang.org/x/sys v0.17.0 // indirect
 	golang.org/x/text v0.14.0 // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20240227224415-6ceb2ff114de // indirect
-	google.golang.org/protobuf v1.33.0 // indirect
 )

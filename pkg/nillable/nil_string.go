@@ -1,13 +1,15 @@
 package nillable
 
-import "github.com/golang/protobuf/ptypes/wrappers"
+import (
+	"google.golang.org/protobuf/types/known/wrapperspb"
+)
 
 type NilString struct {
 	Value   string
 	IsEmpty bool
 }
 
-func Create(nillableString *wrappers.StringValue) NilString {
+func Create(nillableString *wrapperspb.StringValue) NilString {
 	if nillableString == nil {
 		return NilString{
 			Value:   "",
