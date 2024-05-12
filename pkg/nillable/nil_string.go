@@ -1,19 +1,21 @@
 package nillable
 
+import "github.com/golang/protobuf/ptypes/wrappers"
+
 type NilString struct {
 	Value   string
 	IsEmpty bool
 }
 
-func Create(val string) NilString {
-	if len(val) > 0 {
+func Create(nillableString *wrappers.StringValue) NilString {
+	if nillableString == nil {
 		return NilString{
-			Value:   val,
+			Value:   "",
 			IsEmpty: false,
 		}
 	}
 	return NilString{
-		Value:   val,
+		Value:   nillableString.GetValue(),
 		IsEmpty: true,
 	}
 }

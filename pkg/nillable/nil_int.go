@@ -1,19 +1,21 @@
 package nillable
 
+import "github.com/golang/protobuf/ptypes/wrappers"
+
 type NilInt struct {
 	Value   int64
 	IsEmpty bool
 }
 
-func CreateNillableInt(val int64) NilInt {
-	if val > 0 {
+func CreateNillableInt(nillableInt *wrappers.Int64Value) NilInt {
+	if nillableInt == nil {
 		return NilInt{
-			Value:   val,
+			Value:   0,
 			IsEmpty: false,
 		}
 	}
 	return NilInt{
-		Value:   val,
+		Value:   nillableInt.GetValue(),
 		IsEmpty: true,
 	}
 }
