@@ -11,11 +11,11 @@ func Create(nillableString *wrappers.StringValue) NilString {
 	if nillableString == nil {
 		return NilString{
 			Value:   "",
-			IsEmpty: false,
+			IsEmpty: true,
 		}
 	}
 	return NilString{
 		Value:   nillableString.GetValue(),
-		IsEmpty: true,
+		IsEmpty: false,
 	}
 }

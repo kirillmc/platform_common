@@ -11,11 +11,11 @@ func CreateNillableInt(nillableInt *wrappers.Int64Value) NilInt {
 	if nillableInt == nil {
 		return NilInt{
 			Value:   0,
-			IsEmpty: false,
+			IsEmpty: true,
 		}
 	}
 	return NilInt{
 		Value:   nillableInt.GetValue(),
-		IsEmpty: true,
+		IsEmpty: false,
 	}
 }

@@ -11,11 +11,11 @@ func CreateNillableDouble(nillableInt *wrappers.DoubleValue) NilDouble {
 	if nillableInt == nil {
 		return NilDouble{
 			Value:   0,
-			IsEmpty: false,
+			IsEmpty: true,
 		}
 	}
 	return NilDouble{
 		Value:   nillableInt.GetValue(),
-		IsEmpty: true,
+		IsEmpty: false,
 	}
 }
