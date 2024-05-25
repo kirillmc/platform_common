@@ -3,7 +3,8 @@ package pg
 import (
 	"context"
 	"fmt"
-	"log"
+
+	"go.uber.org/zap"
 
 	"github.com/kirillmc/platform_common/pkg/db"
 	"github.com/kirillmc/platform_common/pkg/db/prettier"
@@ -24,10 +25,10 @@ func NewDB(dbc *pgxpool.Pool) db.DB {
 	}
 }
 
-func (p *pg) ScanOneContext(ctx context.Context, dest interface{}, q db.Query, args ...interface{}) error {
-	logQuery(ctx, q, args...)
+func (p *pg) ScanOneContext(ctx context.Context, dest interface{}, q db.Query, logger zap.Logger, args ...interface{}) error {
+	logQuery(ctx, q, logger, args...)
 
-	row, err := p.QueryContext(ctx, q, args...)
+	row, err := p.QueryContext(ctx, q, logger, args...)
 	if err != nil {
 		return err
 	}
@@ -35,10 +36,10 @@ func (p *pg) ScanOneContext(ctx context.Context, dest interface{}, q db.Query, a
 	return pgxscan.ScanOne(dest, row)
 }
 
-func (p *pg) ScanAllContext(ctx context.Context, dest interface{}, q db.Query, args ...interface{}) error {
-	logQuery(ctx, q, args...)
+func (p *pg) ScanAllContext(ctx context.Context, dest interface{}, q db.Query, logger zap.Logger, args ...interface{}) error {
+	logQuery(ctx, q, logger, args...)
 
-	rows, err := p.QueryContext(ctx, q, args...)
+	rows, err := p.QueryContext(ctx, q, logger, args...)
 	if err != nil {
 		return err
 	}
@@ -46,20 +47,20 @@ func (p *pg) ScanAllContext(ctx context.Context, dest interface{}, q db.Query, a
 	return pgxscan.ScanAll(dest, rows)
 }
 
-func (p *pg) ExecContext(ctx context.Context, q db.Query, args ...interface{}) (pgconn.CommandTag, error) {
-	logQuery(ctx, q, args...)
+func (p *pg) ExecContext(ctx context.Context, q db.Query, logger zap.Logger, args ...interface{}) (pgconn.CommandTag, error) {
+	logQuery(ctx, q, logger, args...)
 
 	return p.dbc.Exec(ctx, q.QueryRaw, args...)
 }
 
-func (p *pg) QueryContext(ctx context.Context, q db.Query, args ...interface{}) (pgx.Rows, error) {
-	logQuery(ctx, q, args...)
+func (p *pg) QueryContext(ctx context.Context, q db.Query, logger zap.Logger, args ...interface{}) (pgx.Rows, error) {
+	logQuery(ctx, q, logger, args...)
 
 	return p.dbc.Query(ctx, q.QueryRaw, args...)
 }
 
-func (p *pg) QueryRowContext(ctx context.Context, q db.Query, args ...interface{}) pgx.Row {
-	logQuery(ctx, q, args...)
+func (p *pg) QueryRowContext(ctx context.Context, q db.Query, logger zap.Logger, args ...interface{}) pgx.Row {
+	logQuery(ctx, q, logger, args...)
 
 	return p.dbc.QueryRow(ctx, q.QueryRaw, args...)
 }
@@ -72,12 +73,10 @@ func (p pg) Close() {
 	p.dbc.Close()
 }
 
-func logQuery(ctx context.Context, q db.Query, args ...interface{}) {
+func logQuery(ctx context.Context, q db.Query, logger zap.Logger, args ...interface{}) {
 	prettyQuery := prettier.Pretty(q.QueryRaw, prettier.PlaceholderDollar, args...)
-
-	log.Println(
-		ctx,
+	logger.Sugar().Debugln(ctx,
 		fmt.Sprintf("sql: %s", q.Name),
-		fmt.Sprintf("query: %s", prettyQuery),
-	)
+		fmt.Sprintf("query: %s", prettyQuery))
+
 }
